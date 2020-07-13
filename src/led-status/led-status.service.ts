@@ -26,7 +26,7 @@ export class LedStatusService {
     }
 
     public setLedStatusByString(animation: string) {
-        let map = {
+        const map = {
             'RED_GLOW': LedAnimation.RED_GLOW,
             'RAINBOW_GLOW': LedAnimation.RAINBOW_GLOW,
             'WHITE': LedAnimation.WHITE,

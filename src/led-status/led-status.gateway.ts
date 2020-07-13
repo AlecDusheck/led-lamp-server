@@ -1,10 +1,17 @@
-import {OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer} from "@nestjs/websockets";
-import {Server, Socket} from "socket.io";
+import {
+    OnGatewayConnection,
+    OnGatewayDisconnect,
+    OnGatewayInit,
+    WebSocketGateway,
+    WebSocketServer
+} from "@nestjs/websockets";
 import {LedStatusService} from "./led-status.service";
 import {Subscription} from "rxjs";
 
-WebSocketGateway()
-export class LedStatusGateway implements OnGatewayConnection, OnGatewayDisconnect {
+import {Server, Socket} from 'socket.io';
+
+@WebSocketGateway()
+export class LedStatusGateway implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
     @WebSocketServer()
     server: Server;
 
@@ -14,6 +21,10 @@ export class LedStatusGateway implements OnGatewayConnection, OnGatewayDisconnec
         private readonly ledStatusService: LedStatusService,
     ) {
         this.subscriptions = new Map();
+    }
+
+    afterInit(server: any) {
+        console.log('Gateway initialized');
     }
 
     handleConnection(client: Socket): void {
